@@ -2,12 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['reset'=>true]);
 
 Route::get('/home', [App\Http\Controllers\ProductController::class, 'index'])->name('InvenCrown');
 

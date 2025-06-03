@@ -12,7 +12,13 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('products.home', compact('products'));
+// Productos con bajo stock
+    $lowStockProducts = Product::whereColumn('stock', '<', 'min_stock')->get();
+
+    // Productos expirados
+    $expiredProducts = Product::where('expire_date', '<', now())->get();
+
+    return view('products.home', compact('products', 'lowStockProducts', 'expiredProducts'));
     }
 
     public function create()

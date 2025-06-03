@@ -3,6 +3,26 @@
 @section('content')
     <div class="container">
         <h1>Productos</h1>
+
+        {{-- Notificaciones de productos bajos de stock y expirados --}}
+        @if(($lowStockProducts->count() > 0) || ($expiredProducts->count() > 0))
+            <div class="alert alert-danger">
+                <strong>¡Atención!</strong>
+                <ul class="mb-0">
+                    @foreach($lowStockProducts as $product)
+                        <li>
+                            El producto <b>{{ $product->name }}</b> está por debajo del stock mínimo (Stock: {{ $product->stock }}, Mínimo: {{ $product->min_stock }}).
+                        </li>
+                    @endforeach
+                    @foreach($expiredProducts as $product)
+                        <li>
+                            El producto <b>{{ $product->name }}</b> está caducado (Fecha de caducidad: {{ $product->expire_date }}).
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Añadir Producto</a>
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
